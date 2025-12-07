@@ -61,10 +61,7 @@ pub fn parse_tags(repo: &gix::Repository, config: &Config) -> Result<(TagMap, Ve
                     tag_name: tag_name.clone(),
                 };
 
-                tag_map
-                    .entry(target_id)
-                    .or_insert_with(Vec::new)
-                    .push(version_tag);
+                tag_map.entry(target_id).or_default().push(version_tag);
             }
             Err(_) => {
                 invalid_tags.push(tag_name);

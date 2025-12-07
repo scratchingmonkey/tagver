@@ -33,8 +33,10 @@ async fn test_rtm_version_increment(
         .expect("Failed to create commit");
 
     // Configure version calculation
-    let mut config = Config::default();
-    config.auto_increment = auto_increment;
+    let config = Config {
+        auto_increment,
+        ..Default::default()
+    };
 
     // Calculate version
     let result =

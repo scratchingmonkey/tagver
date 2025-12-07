@@ -19,8 +19,10 @@ async fn test_no_commits() {
         .expect("Failed to create repo");
 
     // Configure version calculation with minimum major.minor
-    let mut config = Config::default();
-    config.minimum_major_minor = Some(MajorMinor::parse("1.2").unwrap());
+    let config = Config {
+        minimum_major_minor: Some(MajorMinor::parse("1.2").unwrap()),
+        ..Default::default()
+    };
 
     // Calculate version
     let result =
@@ -50,8 +52,10 @@ async fn test_tagged(tag_name: &str, major: u32, minor: u32, expected_version: &
         .expect("Failed to create tag");
 
     // Configure version calculation with minimum major.minor
-    let mut config = Config::default();
-    config.minimum_major_minor = Some(MajorMinor::parse(&format!("{}.{}", major, minor)).unwrap());
+    let config = Config {
+        minimum_major_minor: Some(MajorMinor::parse(&format!("{}.{}", major, minor)).unwrap()),
+        ..Default::default()
+    };
 
     // Calculate version
     let result =
@@ -75,8 +79,10 @@ async fn test_not_tagged() {
         .expect("Failed to create repo");
 
     // Configure version calculation with minimum major.minor
-    let mut config = Config::default();
-    config.minimum_major_minor = Some(MajorMinor::parse("1.0").unwrap());
+    let config = Config {
+        minimum_major_minor: Some(MajorMinor::parse("1.0").unwrap()),
+        ..Default::default()
+    };
 
     // Calculate version
     let result =

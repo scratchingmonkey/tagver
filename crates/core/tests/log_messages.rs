@@ -44,7 +44,7 @@ async fn test_minimum_major_minor_after_tag() {
     ];
 
     for (name, args) in commands {
-        common::git::run_git_command(&args, path).expect(&format!("Failed: {}", name));
+        common::git::run_git_command(&args, path).unwrap_or_else(|_| panic!("Failed: {}", name));
 
         // Add delay between commits for determinism
         if name.starts_with("commit") {
@@ -53,8 +53,10 @@ async fn test_minimum_major_minor_after_tag() {
     }
 
     // Configure version calculation with minimum major.minor
-    let mut config = Config::default();
-    config.minimum_major_minor = Some(MajorMinor::new(0, 0));
+    let config = Config {
+        minimum_major_minor: Some(MajorMinor::new(0, 0)),
+        ..Default::default()
+    };
 
     // Calculate version
     let result =
@@ -84,12 +86,14 @@ async fn test_minimum_major_minor_on_tag() {
     ];
 
     for (name, args) in commands {
-        common::git::run_git_command(&args, path).expect(&format!("Failed: {}", name));
+        common::git::run_git_command(&args, path).unwrap_or_else(|_| panic!("Failed: {}", name));
     }
 
     // Configure version calculation with minimum major.minor
-    let mut config = Config::default();
-    config.minimum_major_minor = Some(MajorMinor::new(3, 0));
+    let config = Config {
+        minimum_major_minor: Some(MajorMinor::new(3, 0)),
+        ..Default::default()
+    };
 
     // Calculate version
     let result =

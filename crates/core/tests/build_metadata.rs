@@ -21,11 +21,13 @@ async fn test_no_commits(build_metadata: &str, expected_version: &str) {
         .expect("Failed to create repo");
 
     // Configure version calculation
-    let mut config = Config::default();
-    config.build_metadata = if build_metadata.is_empty() {
-        None
-    } else {
-        Some(build_metadata.to_string())
+    let config = Config {
+        build_metadata: if build_metadata.is_empty() {
+            None
+        } else {
+            Some(build_metadata.to_string())
+        },
+        ..Default::default()
     };
 
     // Calculate version
@@ -52,11 +54,13 @@ async fn test_no_tag(build_metadata: &str, expected_version: &str) {
         .expect("Failed to create repo");
 
     // Configure version calculation
-    let mut config = Config::default();
-    config.build_metadata = if build_metadata.is_empty() {
-        None
-    } else {
-        Some(build_metadata.to_string())
+    let config = Config {
+        build_metadata: if build_metadata.is_empty() {
+            None
+        } else {
+            Some(build_metadata.to_string())
+        },
+        ..Default::default()
     };
 
     // Calculate version
@@ -90,11 +94,13 @@ async fn test_current_tag(tag_name: &str, build_metadata: &str, expected_version
         .expect("Failed to create tag");
 
     // Configure version calculation
-    let mut config = Config::default();
-    config.build_metadata = if build_metadata.is_empty() {
-        None
-    } else {
-        Some(build_metadata.to_string())
+    let config = Config {
+        build_metadata: if build_metadata.is_empty() {
+            None
+        } else {
+            Some(build_metadata.to_string())
+        },
+        ..Default::default()
     };
 
     // Calculate version
@@ -131,11 +137,13 @@ async fn test_previous_tag(tag_name: &str, build_metadata: &str, expected_versio
         .expect("Failed to create commit");
 
     // Configure version calculation
-    let mut config = Config::default();
-    config.build_metadata = if build_metadata.is_empty() {
-        None
-    } else {
-        Some(build_metadata.to_string())
+    let config = Config {
+        build_metadata: if build_metadata.is_empty() {
+            None
+        } else {
+            Some(build_metadata.to_string())
+        },
+        ..Default::default()
     };
 
     // Calculate version

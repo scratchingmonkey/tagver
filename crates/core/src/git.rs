@@ -228,8 +228,5 @@ pub fn calculate_version_fallback(
 pub fn is_git_directory(path: impl Into<PathBuf>) -> bool {
     let path = path.into();
 
-    match gix::discover(path) {
-        Ok(_) => true,
-        Err(_) => false,
-    }
+    gix::discover(path).is_ok()
 }

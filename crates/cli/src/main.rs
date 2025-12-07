@@ -167,7 +167,7 @@ fn build_config(args: &Args) -> Config {
     }
 
     if let Some(verbosity) = &args.verbosity {
-        config.verbosity = verbosity.clone().into();
+        config.verbosity = verbosity.clone();
     }
 
     config
@@ -215,7 +215,7 @@ fn apply_env_vars(config: &mut Config) {
 
     if let Ok(verbosity) = env::var("MINVERVERBOSITY") {
         if let Ok(level) = verbosity.parse::<Verbosity>() {
-            config.verbosity = level.into();
+            config.verbosity = level;
         }
     }
 }

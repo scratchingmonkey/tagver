@@ -24,8 +24,10 @@ async fn test_various_identifiers(identifiers: &str, expected_version: &str) {
     let identifier_list: Vec<String> = identifiers.split('.').map(|s| s.to_string()).collect();
 
     // Configure version calculation
-    let mut config = Config::default();
-    config.default_prerelease_identifiers = identifier_list;
+    let config = Config {
+        default_prerelease_identifiers: identifier_list,
+        ..Default::default()
+    };
 
     // Calculate version
     let result =

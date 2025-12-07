@@ -80,7 +80,7 @@ async fn test_repo_with_history() {
         let git_args: Vec<&str> = args.iter().skip(1).map(|s| s.as_str()).collect();
 
         common::git::run_git_command(&git_args, path)
-            .expect(&format!("Failed to run command: {}", command));
+            .unwrap_or_else(|_| panic!("Failed to run command: {}", command));
 
         // Small delay to ensure timestamp ordering
         tokio::time::sleep(std::time::Duration::from_millis(100)).await;

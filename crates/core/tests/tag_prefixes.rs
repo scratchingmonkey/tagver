@@ -25,8 +25,10 @@ async fn test_tag_prefix(tag_name: &str, prefix: &str, expected_version: &str) {
         .expect("Failed to create tag");
 
     // Configure version calculation with prefix
-    let mut config = Config::default();
-    config.tag_prefix = prefix.to_string();
+    let config = Config {
+        tag_prefix: prefix.to_string(),
+        ..Default::default()
+    };
 
     // Calculate version
     let result = calculate_version(path, &config).expect("Failed to calculate version");

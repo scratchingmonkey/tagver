@@ -75,7 +75,7 @@ pub async fn checkout(path: &Path, ref_name: &str) -> TestResult {
 #[allow(dead_code)]
 pub async fn get_commit_shas(path: &Path) -> TestResult<Vec<String>> {
     let output = Command::new("git")
-        .args(&["log", "--pretty=format:%H"])
+        .args(["log", "--pretty=format:%H"])
         .current_dir(path)
         .output()
         .map_err(|e| format!("Failed to run git log: {}", e))?;
@@ -94,7 +94,7 @@ pub async fn get_commit_shas(path: &Path) -> TestResult<Vec<String>> {
 #[allow(dead_code)]
 pub async fn get_graph(path: &Path) -> TestResult<String> {
     let output = Command::new("git")
-        .args(&["log", "--graph", "--pretty=format:'%d'"])
+        .args(["log", "--graph", "--pretty=format:'%d'"])
         .current_dir(path)
         .output()
         .map_err(|e| format!("Failed to run git log: {}", e))?;
@@ -111,7 +111,5 @@ pub fn get_test_directory(_test_name: &str) -> TempDir {
         .unwrap()
         .as_nanos();
 
-    let temp_dir = tempfile::tempdir().expect("Failed to create temp directory");
-
-    temp_dir
+    tempfile::tempdir().expect("Failed to create temp directory")
 }

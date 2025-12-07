@@ -131,13 +131,6 @@ pub struct CalculationResult {
     pub work_dir: std::path::PathBuf,
 }
 
-impl CalculationResult {
-    /// Returns the version as a string (alias for [`Display`](std::fmt::Display)).
-    pub fn to_string(&self) -> String {
-        self.version.to_string()
-    }
-}
-
 impl std::fmt::Display for CalculationResult {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.version)
