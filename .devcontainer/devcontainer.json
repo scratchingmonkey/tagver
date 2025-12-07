@@ -1,0 +1,30 @@
+{
+	"name": "minver-rs",
+	"image": "mcr.microsoft.com/devcontainers/rust:2-1-trixie",
+
+	"mounts": [
+		{
+			"source": "devcontainer-cargo-cache-${devcontainerId}",
+			"target": "/usr/local/cargo",
+			"type": "volume"
+		}
+	],
+
+	"features": {
+        "ghcr.io/devcontainers/features/common-utils": {
+            "installZsh": false,
+            "installOhMyZsh": false
+        },
+        "ghcr.io/devcontainers/features/git": {}
+    },
+
+	"customizations": {
+        "vscode": {
+            "extensions": [
+                "rust-lang.rust-analyzer",
+                "fill-labs.dependi",
+                "github.vscode-github-actions"
+            ]
+        }
+    }
+}
