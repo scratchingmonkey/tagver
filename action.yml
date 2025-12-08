@@ -61,7 +61,7 @@ runs:
       shell: bash
       env:
         REQUESTED_VERSION: ${{ inputs.minver-version }}
-        GITHUB_TOKEN: ${{ github.token }}
+
       run: |
         # Determine OS and Architecture
         OS="$(uname -s)"
@@ -188,6 +188,6 @@ runs:
             print(f\"build_metadata={meta}\")
             
         except Exception as e:
-            print(f'Error parsing JSON: {e}', file=sys.stderr)
+            print(f'Error parsing JSON: {e}\nRaw JSON_OUTPUT: {os.environ.get('JSON_OUTPUT', '{}')}", file=sys.stderr)
             sys.exit(1)
         " >> $GITHUB_OUTPUT
