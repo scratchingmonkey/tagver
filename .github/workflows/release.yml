@@ -87,11 +87,13 @@ jobs:
             ${{ runner.os }}-cargo-
 
       - name: Build (release)
-        if: matrix.target
-        run: cross build --workspace --release --locked --target ${{ matrix.target }}
-      - name: Build (release)
-        if: '!matrix.target'
-        run: cargo build --workspace --release --locked
+        shell: bash
+        run: |
+          if [[ "${{ matrix.target }}" && "${{ matrix.target }}" != "x86_64-unknown-linux-gnu" ]]; then
+            cross build --workspace --release --locked --target ${{ matrix.target }}
+          else
+            cargo build --workspace --release --locked
+          fi
 
       - name: Test (Linux only)
         if: runner.os == 'Linux' && !matrix.target
