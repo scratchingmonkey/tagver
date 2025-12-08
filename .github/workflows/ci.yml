@@ -49,3 +49,36 @@ jobs:
 
       - name: Test
         run: cargo test --workspace
+
+  test-action:
+    runs-on: ubuntu-latest
+    needs: ci
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run MinVer-RS action
+        id: minver
+        uses: ./
+
+      - name: Validate outputs
+        run: |
+          set -euo pipefail
+          echo "version=${{ steps.minver.outputs.version }}"
+          echo "major=${{ steps.minver.outputs.major }}"
+          echo "minor=${{ steps.minver.outputs.minor }}"
+          echo "patch=${{ steps.minver.outputs.patch }}"
+          echo "pre-release=${{ steps.minver.outputs.pre-release }}"
+          echo "build-metadata=${{ steps.minver.outputs.build-metadata }}"
+
+          # Required numeric outputs
+          [[ -n "${{ steps.minver.outputs.version }}" ]] || { echo "version is empty" >&2; exit 1; }
+          [[ "${{ steps.minver.outputs.major }}" =~ ^[0-9]+$ ]] || { echo "major not numeric" >&2; exit 1; }
+          [[ "${{ steps.minver.outputs.minor }}" =~ ^[0-9]+$ ]] || { echo "minor not numeric" >&2; exit 1; }
+          [[ "${{ steps.minver.outputs.patch }}" =~ ^[0-9]+$ ]] || { echo "patch not numeric" >&2; exit 1; }
+
+          # pre-release and build-metadata may be empty; just ensure they exist
+          [[ "${{ steps.minver.outputs.pre-release }}" != '' ]] || echo "pre-release is empty (allowed)"
+          [[ "${{ steps.minver.outputs.build-metadata }}" != '' ]] || echo "build-metadata is empty (allowed)"
