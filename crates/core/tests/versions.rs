@@ -149,7 +149,7 @@ async fn test_repo_with_history() {
     // Normalize line endings and whitespace for comparison
     let normalize = |l: &str| {
         l.trim_end()
-            .trim_start_matches(|c: char| c == ' ' || c == '*' || c == '|' || c == '\\' || c == '/')
+            .trim_start_matches([' ', '*', '|', '\\', '/'].as_ref())
             .to_string()
     };
 
