@@ -141,8 +141,7 @@ jobs:
       - name: Generate checksums
         run: |
           cd artifacts
-          shopt -s globstar
-          sha256sum **/* > SHA256SUMS
+          find . -type f -exec sha256sum {} + > SHA256SUMS
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
