@@ -129,3 +129,37 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 - [Adam Ralph](https://github.com/adamralph) for creating the original MinVer
 - [Gitoxide](https://github.com/GitoxideLabs/gitoxide) for the excellent pure-Rust Git implementation
 - The Rust community for the amazing ecosystem of libraries
+
+## GitHub Action
+
+This repository also ships a lightweight GitHub Action that downloads the pre-built `tagver` binary from releases and exposes the calculated version and components as outputs. It makes it easy to use TagVer in workflows without installing the CLI on the runner.
+
+Usage example:
+
+```yaml
+steps:
+   - uses: actions/checkout@v4
+      with:
+         fetch-depth: 0
+
+   - name: Calculate version
+      id: tagver
+      uses: scratchingmonkey/tagver@v0
+      with:
+         tag-prefix: 'v'
+
+   - name: Use version
+      run: |
+         echo "Full: ${{ steps.tagver.outputs.version }}"
+         echo "Major: ${{ steps.tagver.outputs.major }}"
+         echo "Pre-release: ${{ steps.tagver.outputs.pre-release }}"
+```
+
+Inputs mirror the CLI options (for example `tag-prefix`, `auto-increment`, `ignore-height`, etc.). The action provides the following outputs:
+
+- `version`: full SemVer string
+- `major`, `minor`, `patch`: numeric components
+- `pre-release`: prerelease identifiers joined by `.`
+- `build-metadata`: build metadata string (empty if none)
+
+Pin the action to a major tag such as `@v0` to receive non-breaking fixes while avoiding accidental breaking changes when you release new major versions.
