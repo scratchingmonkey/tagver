@@ -9,7 +9,7 @@ mod common;
 #[test_case("preview.x", "0.0.0-preview.x")]
 #[tokio::test]
 async fn test_various_identifiers(identifiers: &str, expected_version: &str) {
-    use minver_rs::{calculate_version_with_fallback, Config};
+    use tagver::{calculate_version_with_fallback, Config};
 
     // Create test directory
     let temp_dir = TempDir::new().expect("Failed to create temp directory");

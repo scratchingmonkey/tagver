@@ -5,8 +5,8 @@ use predicates::prelude::*;
 use std::process::Command as StdCommand;
 use tempfile::TempDir;
 
-fn minver_cmd() -> Command {
-    cargo_bin_cmd!("minver")
+fn tagver_cmd() -> Command {
+    cargo_bin_cmd!("tagver")
 }
 
 fn create_git_repo() -> TempDir {
@@ -61,7 +61,7 @@ fn create_git_repo_with_tag(tag: &str) -> TempDir {
 
 #[test]
 fn test_help_flag() {
-    minver_cmd()
+    tagver_cmd()
         .arg("--help")
         .assert()
         .success()
@@ -72,17 +72,17 @@ fn test_help_flag() {
 
 #[test]
 fn test_version_flag() {
-    minver_cmd()
+    tagver_cmd()
         .arg("--version")
         .assert()
         .success()
-        .stdout(predicate::str::is_match(r"minver \d+\.\d+\.\d+").unwrap());
+        .stdout(predicate::str::is_match(r"tagver \d+\.\d+\.\d+").unwrap());
 }
 
 #[test]
 fn test_in_git_repo_no_tags() {
     let temp = create_git_repo();
-    minver_cmd()
+    tagver_cmd()
         .current_dir(temp.path())
         .assert()
         .success()
@@ -92,7 +92,7 @@ fn test_in_git_repo_no_tags() {
 #[test]
 fn test_in_git_repo_with_tag() {
     let temp = create_git_repo_with_tag("1.0.0");
-    minver_cmd()
+    tagver_cmd()
         .current_dir(temp.path())
         .assert()
         .success()
@@ -102,7 +102,7 @@ fn test_in_git_repo_with_tag() {
 #[test]
 fn test_non_git_directory() {
     let temp = TempDir::new().unwrap();
-    minver_cmd()
+    tagver_cmd()
         .current_dir(temp.path())
         .assert()
         .code(2)
@@ -124,7 +124,7 @@ fn test_tag_prefix() {
         .assert()
         .success();
 
-    minver_cmd()
+    tagver_cmd()
         .current_dir(repo_path)
         .arg("--tag-prefix")
         .arg("v")
@@ -147,7 +147,7 @@ fn test_auto_increment_major() {
         .assert()
         .success();
 
-    minver_cmd()
+    tagver_cmd()
         .current_dir(repo_path)
         .arg("--auto-increment")
         .arg("major")
@@ -159,7 +159,7 @@ fn test_auto_increment_major() {
 #[test]
 fn test_minimum_major_minor() {
     let temp = create_git_repo();
-    minver_cmd()
+    tagver_cmd()
         .current_dir(temp.path())
         .arg("--minimum-major-minor")
         .arg("1.2")
@@ -171,7 +171,7 @@ fn test_minimum_major_minor() {
 #[test]
 fn test_build_metadata() {
     let temp = create_git_repo_with_tag("1.0.0");
-    minver_cmd()
+    tagver_cmd()
         .current_dir(temp.path())
         .arg("--build-metadata")
         .arg("ci.123")
@@ -192,9 +192,9 @@ fn test_env_var_tag_prefix() {
         .assert()
         .success();
 
-    minver_cmd()
+    tagver_cmd()
         .current_dir(repo_path)
-        .env("MINVERTAGPREFIX", "v")
+        .env("TAGVER_TAGPREFIX", "v")
         .assert()
         .success()
         .stdout(predicate::str::contains("1.0.0"));
@@ -214,9 +214,9 @@ fn test_env_var_auto_increment() {
         .assert()
         .success();
 
-    minver_cmd()
+    tagver_cmd()
         .current_dir(repo_path)
-        .env("MINVERAUTOINCREMENT", "minor")
+        .env("TAGVER_AUTOINCREMENT", "minor")
         .assert()
         .success()
         .stdout(predicate::str::contains("1.1.0-alpha.0.1"));
@@ -225,9 +225,9 @@ fn test_env_var_auto_increment() {
 #[test]
 fn test_env_var_minimum_major_minor() {
     let temp = create_git_repo();
-    minver_cmd()
+    tagver_cmd()
         .current_dir(temp.path())
-        .env("MINVERMINIMUMMAJORMINOR", "1.2")
+        .env("TAGVER_MINIMUMMAJORMINOR", "1.2")
         .assert()
         .success()
         .stdout(predicate::str::contains("1.2.0-alpha.0"));
@@ -236,9 +236,9 @@ fn test_env_var_minimum_major_minor() {
 #[test]
 fn test_env_var_build_metadata() {
     let temp = create_git_repo_with_tag("1.0.0");
-    minver_cmd()
+    tagver_cmd()
         .current_dir(temp.path())
-        .env("MINVERBUILDMETADATA", "ci.456")
+        .env("TAGVER_BUILDMETADATA", "ci.456")
         .assert()
         .success()
         .stdout(predicate::str::contains("1.0.0+ci.456"));
@@ -258,9 +258,9 @@ fn test_env_var_ignore_height() {
         .assert()
         .success();
 
-    minver_cmd()
+    tagver_cmd()
         .current_dir(repo_path)
-        .env("MINVERIGNOREHEIGHT", "true")
+        .env("TAGVER_IGNOREHEIGHT", "true")
         .assert()
         .success()
         // Height is fully ignored; stays at the tagged version
@@ -271,9 +271,9 @@ fn test_env_var_ignore_height() {
 // #[test]
 // fn test_env_var_verbosity() {
 //     let temp = create_git_repo();
-//     minver_cmd()
+//     tagver_cmd()
 //         .current_dir(temp.path())
-//         .env("MINVERVERBOSITY", "debug")
+//         .env("TAGVER_VERBOSITY", "debug")
 //         .assert()
 //         .success()
 //         .stderr(predicate::str::contains("DEBUG").or(predicate::str::contains("debug")));
@@ -293,9 +293,9 @@ fn test_cli_args_override_env_vars() {
         .assert()
         .success();
 
-    minver_cmd()
+    tagver_cmd()
         .current_dir(repo_path)
-        .env("MINVERAUTOINCREMENT", "major") // Env var says major
+        .env("TAGVER_AUTOINCREMENT", "major") // Env var says major
         .arg("--auto-increment")
         .arg("minor") // CLI arg says minor
         .assert()
@@ -308,7 +308,7 @@ fn test_json_output() {
     let temp = create_git_repo_with_tag("1.2.3");
     let repo_path = temp.path();
 
-    minver_cmd()
+    tagver_cmd()
         .current_dir(repo_path)
         .arg("--format")
         .arg("json")

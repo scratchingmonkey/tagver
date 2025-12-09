@@ -1,5 +1,5 @@
 {
-	"name": "minver-rs",
+	"name": "TagVer",
 	"image": "mcr.microsoft.com/devcontainers/rust:2-1-trixie",
 
 	"mounts": [

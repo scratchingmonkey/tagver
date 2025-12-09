@@ -1,4 +1,4 @@
-//! Test fixtures for minver-rs tests
+//! Test fixtures for TagVer tests
 
 use std::path::Path;
 

@@ -2,10 +2,10 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
-    let minver_version = calculate_minver_version();
+    let tagver_version = calculate_tagver_version();
     println!(
-        "cargo:rustc-env=MINVER_CALCULATED_VERSION={}",
-        minver_version
+        "cargo:rustc-env=TAGVER_CALCULATED_VERSION={}",
+        tagver_version
     );
 
     // shadow-rs generates extended build metadata (git hash, timestamps, rustc version)
@@ -23,11 +23,11 @@ fn workspace_root() -> PathBuf {
         .unwrap_or_else(|| PathBuf::from("."))
 }
 
-fn calculate_minver_version() -> String {
+fn calculate_tagver_version() -> String {
     let work_dir = workspace_root();
-    let config = minver_rs::Config::default();
+    let config = tagver::Config::default();
 
-    match minver_rs::calculate_version(&work_dir, &config) {
+    match tagver::calculate_version(&work_dir, &config) {
         Ok(result) => result.version.to_string(),
         Err(_) => env::var("CARGO_PKG_VERSION").unwrap_or_else(|_| "0.0.0-dev".to_string()),
     }

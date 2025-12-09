@@ -22,23 +22,23 @@ jobs:
         include:
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-            artifact_name: minver-linux-x86_64
-            bin_path: target/x86_64-unknown-linux-gnu/release/minver
+            artifact_name: tagver-linux-x86_64
+            bin_path: target/x86_64-unknown-linux-gnu/release/tagver
             archive_ext: tar.gz
           - os: ubuntu-latest
             target: aarch64-unknown-linux-gnu
-            artifact_name: minver-linux-arm64
-            bin_path: target/aarch64-unknown-linux-gnu/release/minver
+            artifact_name: tagver-linux-arm64
+            bin_path: target/aarch64-unknown-linux-gnu/release/tagver
             archive_ext: tar.gz
           - os: macos-latest
             target: aarch64-apple-darwin
-            artifact_name: minver-macos-arm64
-            bin_path: target/aarch64-apple-darwin/release/minver
+            artifact_name: tagver-macos-arm64
+            bin_path: target/aarch64-apple-darwin/release/tagver
             archive_ext: tar.gz
           - os: windows-latest
             target: x86_64-pc-windows-msvc
-            artifact_name: minver-windows-x86_64
-            bin_path: target/x86_64-pc-windows-msvc/release/minver.exe
+            artifact_name: tagver-windows-x86_64
+            bin_path: target/x86_64-pc-windows-msvc/release/tagver.exe
             archive_ext: zip
     steps:
       - name: Checkout
@@ -194,16 +194,16 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Cargo publish dry-run (library)
-        run: cargo publish -p minver-rs --locked --dry-run
+        run: cargo publish -p tagver --locked --dry-run
 
       - name: Cargo publish dry-run (cli)
-        run: cargo publish -p minver-rs-cli --locked --dry-run
+        run: cargo publish -p tagver-cli --locked --dry-run
 
       - name: Publish library
-        run: cargo publish -p minver-rs --locked
+        run: cargo publish -p tagver --locked
 
       - name: Wait for crate index to update
         run: sleep 20
 
       - name: Publish cli
-        run: cargo publish -p minver-rs-cli --locked
+        run: cargo publish -p tagver-cli --locked

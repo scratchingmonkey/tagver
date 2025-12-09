@@ -1,4 +1,4 @@
-//! Configuration for minver-rs operations.
+//! Configuration for TagVer operations.
 
 use std::path::PathBuf;
 use std::str::FromStr;
@@ -75,7 +75,7 @@ impl MajorMinor {
     }
 }
 
-/// Runtime configuration for minver-rs operations.
+/// Runtime configuration for TagVer operations.
 ///
 /// # Defaults
 /// - `work_dir`: current directory (`.`)
@@ -87,7 +87,7 @@ impl MajorMinor {
 ///
 /// # Examples
 /// ```rust
-/// use minver_rs::{Config, VersionPart};
+/// use tagver::{Config, VersionPart};
 ///
 /// let mut config = Config::default();
 /// config.tag_prefix = "v".into();

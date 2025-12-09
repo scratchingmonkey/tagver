@@ -1,15 +1,15 @@
 [package]
-name = "minver-rs"
+name = "tagver"
 version = "0.1.0"
 edition = "2021"
-authors = ["minver-rs Contributors"]
+authors = ["tagver Contributors"]
 license = "Apache-2.0"
 description = "Core library for minimalistic versioning using Git tags"
-repository = "https://github.com/scratchingmonkey/minver-rs"
+repository = "https://github.com/scratchingmonkey/tagver"
 readme = "../../README.md"
-documentation = "https://docs.rs/minver-rs"
+documentation = "https://docs.rs/tagver"
 rust-version = "1.75"
-keywords = ["versioning", "semver", "git", "minver"]
+keywords = ["versioning", "semver", "git", "build"]
 categories = ["development-tools", "development-tools::build-utils"]
 
 [package.metadata.docs.rs]

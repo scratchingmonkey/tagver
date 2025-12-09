@@ -7,8 +7,8 @@ mod common;
 
 #[tokio::test]
 async fn test_no_commits() {
-    use minver_rs::config::MajorMinor;
-    use minver_rs::{calculate_version_with_fallback, Config};
+    use tagver::config::MajorMinor;
+    use tagver::{calculate_version_with_fallback, Config};
 
     let temp_dir = TempDir::new().expect("Failed to create temp directory");
     let path = temp_dir.path();
@@ -37,8 +37,8 @@ async fn test_no_commits() {
 #[test_case("4.3.0", 5, 4, "4.3.0")]
 #[tokio::test]
 async fn test_tagged(tag_name: &str, major: u32, minor: u32, expected_version: &str) {
-    use minver_rs::config::MajorMinor;
-    use minver_rs::{calculate_version_with_fallback, Config};
+    use tagver::config::MajorMinor;
+    use tagver::{calculate_version_with_fallback, Config};
 
     let temp_dir = TempDir::new().expect("Failed to create temp directory");
     let path = temp_dir.path();
@@ -67,8 +67,8 @@ async fn test_tagged(tag_name: &str, major: u32, minor: u32, expected_version: &
 
 #[tokio::test]
 async fn test_not_tagged() {
-    use minver_rs::config::MajorMinor;
-    use minver_rs::{calculate_version_with_fallback, Config};
+    use tagver::config::MajorMinor;
+    use tagver::{calculate_version_with_fallback, Config};
 
     let temp_dir = TempDir::new().expect("Failed to create temp directory");
     let path = temp_dir.path();

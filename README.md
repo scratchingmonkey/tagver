@@ -1,6 +1,6 @@
-# MinVer-RS
+# TagVer
 
-[![CI](https://github.com/scratchingmonkey/minver-rs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/scratchingmonkey/minver-rs/actions/workflows/ci.yml?query=branch%3Amain) [![MSRV 1.75+](https://img.shields.io/badge/MSRV-1.75%2B-blue.svg)](https://blog.rust-lang.org/2023/12/07/Rust-1.75.0.html)
+[![CI](https://github.com/scratchingmonkey/tagver/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/scratchingmonkey/tagver/actions/workflows/ci.yml?query=branch%3Amain) [![MSRV 1.75+](https://img.shields.io/badge/MSRV-1.75%2B-blue.svg)](https://blog.rust-lang.org/2023/12/07/Rust-1.75.0.html)
 
 A Rust implementation of the [MinVer CLI](https://github.com/adamralph/minver) - minimalistic versioning using Git tags.
 
@@ -25,21 +25,21 @@ This project ports the excellent MinVer CLI .NET tool to Rust and incorporates t
 ### From crates.io (recommended)
 
 ```bash
-cargo install minver-rs-cli
+cargo install tagver-cli
 ```
 
 ### Pre-built binaries
 
-Download platform-specific archives from [GitHub Releases](https://github.com/scratchingmonkey/minver-rs/releases):
-- `minver-linux-x86_64.tar.gz` (Linux x86_64)
-- `minver-macos-arm64.tar.gz` (macOS Apple Silicon)
-- `minver-windows-x86_64.zip` (Windows x86_64)
+Download platform-specific archives from [GitHub Releases](https://github.com/scratchingmonkey/tagver/releases):
+- `tagver-linux-x86_64.tar.gz` (Linux x86_64)
+- `tagver-macos-arm64.tar.gz` (macOS Apple Silicon)
+- `tagver-windows-x86_64.zip` (Windows x86_64)
 
 ### From source
 
 ```bash
-git clone https://github.com/scratchingmonkey/minver-rs
-cd minver-rs
+git clone https://github.com/scratchingmonkey/tagver
+cd tagver
 cargo install --path crates/cli
 ```
 
@@ -49,16 +49,16 @@ cargo install --path crates/cli
 
 ```bash
 # Calculate version for current repository
-minver
+tagver
 
 # With custom tag prefix
-minver --tag-prefix v
+tagver --tag-prefix v
 
 # Ignore height (use exact tag version)
-minver --ignore-height
+tagver --ignore-height
 
 # Print all command-line options
-minver --help
+tagver --help
 ```
 
 ### Example
@@ -66,7 +66,7 @@ minver --help
 ```bash
 $ git tag 1.2.3
 
-$ minver
+$ tagver
 1.2.3
 ```
 
@@ -74,17 +74,17 @@ $ minver
 
 All options can also be set via environment variables:
 
-- `MINVERTAGPREFIX`
-- `MINVERAUTOINCREMENT`
-- `MINVERDEFAULTPRERELEASEIDENTIFIERS`
-- `MINVERMINIMUMMAJORMINOR`
-- `MINVERIGNOREHEIGHT`
-- `MINVERBUILDMETADATA`
-- `MINVERVERBOSITY`
+- `TAGVER_TAGPREFIX`
+- `TAGVER_AUTOINCREMENT`
+- `TAGVER_DEFAULTPRERELEASEIDENTIFIERS`
+- `TAGVER_MINIMUMMAJORMINOR`
+- `TAGVER_IGNOREHEIGHT`
+- `TAGVER_BUILDMETADATA`
+- `TAGVER_VERBOSITY`
 
 ## How it works
 
-MinVer-RS follows the same algorithm as the original MinVer:
+TagVer follows the same algorithm as the original MinVer:
 
 1. **Tag discovery**: Find all Git tags that match the configured prefix
 2. **Version parsing**: Parse tags as semantic versions (SemVer 2.0.0)
@@ -109,7 +109,7 @@ MinVer-RS follows the same algorithm as the original MinVer:
 
 ## Comparison with original MinVer
 
-| Feature | MinVer (.NET) | MinVer-RS (Rust) |
+| Feature | MinVer (.NET) | TagVer (Rust) |
 |---------|---------------|------------------|
 | Language | C# | Rust |
 | Distribution | NuGet package | Static binary |

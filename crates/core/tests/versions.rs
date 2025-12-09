@@ -14,7 +14,7 @@ fn ensure_empty_directory(path: &std::path::Path) -> std::io::Result<()> {
 
 #[tokio::test]
 async fn test_empty_repo() {
-    use minver_rs::{calculate_version, Config};
+    use tagver::{calculate_version, Config};
 
     let temp_dir = TempDir::new().expect("Failed to create temp directory");
     let path = temp_dir.path();
@@ -33,8 +33,8 @@ async fn test_empty_repo() {
 
 #[tokio::test]
 async fn test_repo_with_history() {
-    use minver_rs::{calculate_version_with_fallback, Config};
     use std::collections::HashMap;
+    use tagver::{calculate_version_with_fallback, Config};
 
     let temp_dir = TempDir::new().expect("Failed to create temp directory");
     let path = temp_dir.path();
@@ -182,7 +182,7 @@ async fn test_repo_with_history() {
 
 #[test]
 fn test_no_repo() {
-    use minver_rs::{calculate_version_with_fallback, Config};
+    use tagver::{calculate_version_with_fallback, Config};
 
     let temp_dir = TempDir::new().expect("Failed to create temp directory");
     let path = temp_dir.path();

@@ -1,13 +1,13 @@
-//! Error types for minver-rs operations.
+//! Error types for TagVer operations.
 
 use thiserror::Error;
 
-/// Result type alias for minver-rs operations.
-pub type Result<T> = std::result::Result<T, MinVerError>;
+/// Result type alias for TagVer operations.
+pub type Result<T> = std::result::Result<T, TagVerError>;
 
-/// Main error type for minver-rs operations.
+/// Main error type for TagVer operations.
 #[derive(Error, Debug)]
-pub enum MinVerError {
+pub enum TagVerError {
     #[error("Git repository not found at path: {0}")]
     GitRepoNotFound(String),
 

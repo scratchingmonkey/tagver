@@ -3,16 +3,16 @@
 use crate::config::{MajorMinor, VersionPart};
 use serde::Serialize;
 
-/// Semantic version representation used by MinVer.
+/// Semantic version representation used by TagVer.
 ///
 /// # Examples
 /// Parsing and formatting a version:
 /// ```rust
-/// use minver_rs::{Version, MinVerError};
+/// use tagver::{Version, TagVerError};
 ///
 /// let version: Version = "1.2.3".parse()?;
 /// assert_eq!(version.to_string(), "1.2.3");
-/// # Ok::<_, MinVerError>(())
+/// # Ok::<_, TagVerError>(())
 /// ```
 #[derive(Debug, Clone, Serialize)]
 pub struct Version {
@@ -279,11 +279,11 @@ impl std::fmt::Display for Version {
 }
 
 impl std::str::FromStr for Version {
-    type Err = crate::error::MinVerError;
+    type Err = crate::error::TagVerError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let semver = semver::Version::parse(s)
-            .map_err(|e| crate::error::MinVerError::InvalidSemver(e.to_string()))?;
+            .map_err(|e| crate::error::TagVerError::InvalidSemver(e.to_string()))?;
         Ok(Version::from_semver(&semver))
     }
 }

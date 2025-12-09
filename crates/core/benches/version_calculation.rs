@@ -1,5 +1,5 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use minver_rs::{calculate_version, CalculationResult, Config, Version};
+use tagver::{calculate_version, CalculationResult, Config, Version};
 
 fn benchmark_version_calculation(c: &mut Criterion) {
     c.bench_function("version_calculation_no_tags", |b| {
