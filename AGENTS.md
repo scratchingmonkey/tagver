@@ -14,7 +14,7 @@ It also includes a GitHub action defined in `action.yml` that downloads release 
   - Prefer changes in `crates/core` for algorithmic or semantic-versioning logic; keep CLI-only changes in `crates/cli`.
   - Keep artifact names in sync between `release.yml` and `action.yml`.
   - Use `cargo add` to add dependencies to ensure version consistency across the workspace.
-  - `action.yml` (root) is a composite action that downloads the release archive, extracts the binary, runs it with `--format json`, and parses the JSON to set outputs. If you change artifact naming or JSON shape, update `action.yml` accordingly. The CLI integration test `crates/cli/tests/cli.rs::test_json_output` validates the JSON schape from `--format JSON`
+  - `action.yml` (root) is a composite action that downloads the release archive, extracts the binary, runs it with `--format json`, and parses the JSON to set outputs. If you change artifact naming or JSON shape, update `action.yml` accordingly. The CLI integration test `crates/cli/tests/cli.rs::test_json_output` validates the JSON shape from `--format json`
 - CI: `.github/workflows/ci.yml`:
   - Runs on every PR and push to `main`.
   - Checks out code, sets up Rust, builds, formats, lints, and tests the entire workspace including the GitHub action.
