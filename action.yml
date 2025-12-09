@@ -123,14 +123,14 @@ runs:
         ARTIFACT_DIR=""
 
         if [ "$PLATFORM" = "windows" ]; then
-          curl -L -o tagver.zip "$DOWNLOAD_URL"
+          wget -q -O tagver.zip "$DOWNLOAD_URL"
           ARTIFACT_DIR="${ASSET_NAME%.zip}"
           TMP_DIR="$(mktemp -d)"
           unzip -o tagver.zip -d "$TMP_DIR"
           cp "$TMP_DIR/$ARTIFACT_DIR/tagver.exe" "$INSTALL_DIR/tagver.exe"
           rm -rf "$TMP_DIR" tagver.zip
         else
-          curl -L -o tagver.tar.gz "$DOWNLOAD_URL"
+          wget -q -O tagver.tar.gz "$DOWNLOAD_URL"
           ARTIFACT_DIR="${ASSET_NAME%.tar.gz}"
           TMP_DIR="$(mktemp -d)"
           tar -xzf tagver.tar.gz -C "$TMP_DIR"
