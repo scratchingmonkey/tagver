@@ -198,26 +198,26 @@ runs:
         import sys
         import json
         import os
-        
         try:
+            # Use standard formatting (or .format()) to avoid bash syntax conflict
             json_str = os.environ.get('JSON_OUTPUT', '{}')
             data = json.loads(json_str)
-            
-            print(f\"version={data.get('version', '')}\")
-            print(f\"major={data.get('major', 0)}\")
-            print(f\"minor={data.get('minor', 0)}\")
-            print(f\"patch={data.get('patch', 0)}\")
-            
+
+            print('version={}'.format(data.get('version', '')))
+            print('major={}'.format(data.get('major', 0)))
+            print('minor={}'.format(data.get('minor', 0)))
+            print('patch={}'.format(data.get('patch', 0)))
+
             pre = data.get('pre_release', [])
-            pre = '.'.join(pre)
-            print(f\"pre_release={pre}\")
+            pre = '.'.join(str(p) for p in pre) # Ensure elements are strings before joining
+            print('pre_release={}'.format(pre))
             
             meta = data.get('build_metadata')
             if meta is None:
                 meta = ''
-            print(f\"build_metadata={meta}\")
-            
+            print('build_metadata={}'.format(meta))
+
         except Exception as e:
-            print(f"Error parsing JSON: {e}\nRaw JSON_OUTPUT: {os.environ.get('JSON_OUTPUT', '{}')}", file=sys.stderr)
+            print('Error parsing JSON: {}\nRaw JSON_OUTPUT: {}'.format(e, os.environ.get('JSON_OUTPUT', '{}')), file=sys.stderr)
             sys.exit(1)
         " >> $GITHUB_OUTPUT
