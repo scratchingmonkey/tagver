@@ -107,29 +107,6 @@ TagVer follows the same algorithm as the original MinVer:
 | No tags | `0.0.0-alpha.0` |
 | 2 commits from root | `0.0.0-alpha.0.2` |
 
-## Comparison with original MinVer
-
-| Feature | MinVer (.NET) | TagVer (Rust) |
-|---------|---------------|------------------|
-| Language | C# | Rust |
-| Distribution | NuGet package | Static binary |
-| Startup time | ~200ms | <10ms |
-| Dependencies | .NET SDK | None |
-| Cross-platform | .NET supported | All Rust targets |
-| Environment variables | ✅ | ✅ |
-| CLI interface | ✅ | ✅ |
-| Library usage | ✅ | ✅ |
-
-## License
-
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- [Adam Ralph](https://github.com/adamralph) for creating the original MinVer
-- [Gitoxide](https://github.com/GitoxideLabs/gitoxide) for the excellent pure-Rust Git implementation
-- The Rust community for the amazing ecosystem of libraries
-
 ## GitHub Action
 
 This repository also ships a lightweight GitHub Action that downloads the pre-built `tagver` binary from releases and exposes the calculated version and components as outputs. It makes it easy to use TagVer in workflows without installing the CLI on the runner.
@@ -163,3 +140,13 @@ Inputs mirror the CLI options (for example `tag-prefix`, `auto-increment`, `igno
 - `build-metadata`: build metadata string (empty if none)
 
 Pin the action to a major tag such as `@v0` to receive non-breaking fixes while avoiding accidental breaking changes when you release new major versions.
+
+## License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Adam Ralph](https://github.com/adamralph) for creating the original MinVer
+- [Gitoxide](https://github.com/GitoxideLabs/gitoxide) for the excellent pure-Rust Git implementation
+- The Rust community for the amazing ecosystem of libraries
