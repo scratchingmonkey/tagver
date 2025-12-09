@@ -169,7 +169,27 @@ runs:
         
         # Run tagver
         cd "$INPUT_WORKING_DIRECTORY"
-        JSON_OUTPUT=$(tagver $ARGS)
+
+        # Create temp file for stderr
+        TAGVER_STDERR=$(mktemp)
+
+        # Run tagver
+        JSON_OUTPUT=$(tagver $ARGS 2> "$TAGVER_STDERR")
+        TAGVER_EXIT_CODE=$?
+
+        # Check for errors from tagver
+        if [ $TAGVER_EXIT_CODE -ne 0 ]; then
+          echo "::error::TagVer command failed with exit code $TAGVER_EXIT_CODE."
+          echo "--- TagVer Stderr ---"
+          cat "$TAGVER_STDERR"
+          echo "---------------------"
+          rm "$TAGVER_STDERR"
+          exit $TAGVER_EXIT_CODE
+        fi
+
+        # Clean up stderr file
+        rm "$TAGVER_STDERR"
+
         echo "TagVer Output: $JSON_OUTPUT"
         
         # Parse JSON using Python and set outputs
