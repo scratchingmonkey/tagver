@@ -1,4 +1,4 @@
-//! Common test infrastructure for minver-rs tests
+//! Common test infrastructure for TagVer tests
 
 pub mod fixtures;
 pub mod git;

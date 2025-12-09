@@ -1,7 +1,7 @@
 //! Tag parsing and management functionality.
 
 use crate::config::Config;
-use crate::error::{MinVerError, Result};
+use crate::error::{Result, TagVerError};
 use crate::version::Version;
 use std::collections::HashMap;
 
@@ -27,12 +27,12 @@ pub fn parse_tags(repo: &gix::Repository, config: &Config) -> Result<(TagMap, Ve
     // Get all references
     let refs = repo
         .references()
-        .map_err(|e| MinVerError::Other(format!("Failed to get references: {}", e)))?;
+        .map_err(|e| TagVerError::Other(format!("Failed to get references: {}", e)))?;
 
     // Filter for tags
     let tag_refs = refs
         .tags()
-        .map_err(|e| MinVerError::Other(format!("Failed to get tags: {}", e)))?;
+        .map_err(|e| TagVerError::Other(format!("Failed to get tags: {}", e)))?;
 
     for mut tag_ref in tag_refs.flatten() {
         let tag_name = tag_ref.name().shorten().to_string();

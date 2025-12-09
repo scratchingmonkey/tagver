@@ -1,19 +1,18 @@
-//! minver-rs CLI - Command-line tool for minimalistic versioning using Git tags
+//! TagVer CLI - Command-line tool for minimalistic versioning using Git tags
 
 use clap::{ArgAction, CommandFactory, FromArgMatches, Parser};
 use std::path::PathBuf;
 use std::process::exit;
 
-use minver_rs::{calculate_version, Config, MinVerError, Verbosity, VersionPart};
+use tagver::{calculate_version, Config, TagVerError, Verbosity, VersionPart};
 use tracing::{debug, error, info, warn};
 use tracing_subscriber::FmtSubscriber;
 
 shadow_rs::shadow!(build);
-const CLI_VERSION: &str = env!("MINVER_CALCULATED_VERSION");
+const CLI_VERSION: &str = env!("TAGVER_CALCULATED_VERSION");
 
-/// minver-rs - Minimalistic versioning using Git tags
 #[derive(Parser, Debug, Clone)]
-#[command(name = "minver")]
+#[command(name = "tagver")]
 #[command(about = "Calculate version numbers from Git tags")]
 #[command(version = CLI_VERSION)]
 struct Args {
@@ -134,14 +133,14 @@ fn main() {
         }
         Err(e) => {
             match e {
-                MinVerError::GitRepoNotFound(path) => {
+                TagVerError::GitRepoNotFound(path) => {
                     error!("'{}' is not a valid Git working directory", path);
                 }
-                MinVerError::NoCommits => {
+                TagVerError::NoCommits => {
                     info!("No commits found. Using default version.");
                     println!("0.0.0-alpha.0");
                 }
-                MinVerError::ShallowRepo => {
+                TagVerError::ShallowRepo => {
                     warn!("Shallow repository detected. Version calculation may be incorrect. Fetch full history with 'git fetch --unshallow'.");
                     // Still try to calculate and return the result
                     if let Ok(result) = calculate_version(args.working_directory, &config) {
@@ -182,7 +181,7 @@ fn build_config(args: &Args) -> Config {
     }
 
     if let Some(min_mm) = &args.minimum_major_minor {
-        if let Ok(minor_major) = minver_rs::config::MajorMinor::parse(min_mm) {
+        if let Ok(minor_major) = tagver::config::MajorMinor::parse(min_mm) {
             config.minimum_major_minor = Some(minor_major);
         }
     }
@@ -205,44 +204,44 @@ fn build_config(args: &Args) -> Config {
 fn apply_env_vars(config: &mut Config) {
     use std::env;
 
-    if let Ok(tag_prefix) = env::var("MINVERTAGPREFIX") {
+    if let Ok(tag_prefix) = env::var("TAGVER_TAGPREFIX") {
         if !tag_prefix.is_empty() {
             config.tag_prefix = tag_prefix;
         }
     }
 
-    if let Ok(auto_inc) = env::var("MINVERAUTOINCREMENT") {
+    if let Ok(auto_inc) = env::var("TAGVER_AUTOINCREMENT") {
         if let Ok(part) = auto_inc.parse::<VersionPart>() {
             config.auto_increment = part;
         }
     }
 
-    if let Ok(identifiers) = env::var("MINVERDEFAULTPRERELEASEIDENTIFIERS") {
+    if let Ok(identifiers) = env::var("TAGVER_DEFAULTPRERELEASEIDENTIFIERS") {
         if !identifiers.is_empty() {
             config.default_prerelease_identifiers =
                 identifiers.split('.').map(|s| s.to_string()).collect();
         }
     }
 
-    if let Ok(min_mm) = env::var("MINVERMINIMUMMAJORMINOR") {
-        if let Ok(minor_major) = minver_rs::config::MajorMinor::parse(&min_mm) {
+    if let Ok(min_mm) = env::var("TAGVER_MINIMUMMAJORMINOR") {
+        if let Ok(minor_major) = tagver::config::MajorMinor::parse(&min_mm) {
             config.minimum_major_minor = Some(minor_major);
         }
     }
 
-    if let Ok(ignore_height) = env::var("MINVERIGNOREHEIGHT") {
+    if let Ok(ignore_height) = env::var("TAGVER_IGNOREHEIGHT") {
         if let Ok(value) = ignore_height.parse::<bool>() {
             config.ignore_height = value;
         }
     }
 
-    if let Ok(build_meta) = env::var("MINVERBUILDMETADATA") {
+    if let Ok(build_meta) = env::var("TAGVER_BUILDMETADATA") {
         if !build_meta.is_empty() {
             config.build_metadata = Some(build_meta);
         }
     }
 
-    if let Ok(verbosity) = env::var("MINVERVERBOSITY") {
+    if let Ok(verbosity) = env::var("TAGVER_VERBOSITY") {
         if let Ok(level) = verbosity.parse::<Verbosity>() {
             config.verbosity = level;
         }
@@ -286,14 +285,14 @@ mod tests {
         assert_eq!(config.default_prerelease_identifiers, vec!["beta", "0"]);
         assert!(config.ignore_height);
         assert_eq!(config.build_metadata, Some("build.123".to_string()));
-        assert_eq!(config.verbosity, minver_rs::config::Verbosity::Debug);
+        assert_eq!(config.verbosity, tagver::config::Verbosity::Debug);
     }
 
     #[test]
     fn test_env_var_sets_verbosity() {
         // Preserve previous value to avoid leaking state
-        let original = std::env::var("MINVERVERBOSITY").ok();
-        std::env::set_var("MINVERVERBOSITY", "debug");
+        let original = std::env::var("TAGVER_VERBOSITY").ok();
+        std::env::set_var("TAGVER_VERBOSITY", "debug");
 
         let args = Args {
             working_directory: PathBuf::from("."),
@@ -308,12 +307,12 @@ mod tests {
         };
 
         let config = build_config(&args);
-        assert_eq!(config.verbosity, minver_rs::config::Verbosity::Debug);
+        assert_eq!(config.verbosity, tagver::config::Verbosity::Debug);
 
         if let Some(val) = original {
-            std::env::set_var("MINVERVERBOSITY", val);
+            std::env::set_var("TAGVER_VERBOSITY", val);
         } else {
-            std::env::remove_var("MINVERVERBOSITY");
+            std::env::remove_var("TAGVER_VERBOSITY");
         }
     }
 }

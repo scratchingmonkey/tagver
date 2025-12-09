@@ -3,11 +3,11 @@
 use std::path::{Path, PathBuf};
 
 use crate::config::Config;
-use crate::error::{MinVerError, Result};
+use crate::error::{Result, TagVerError};
 use crate::tags::{parse_tags, TagMap, VersionTag};
 use crate::version::Version;
 
-/// Git repository wrapper with MinVer-specific operations.
+/// Git repository wrapper with tagver-specific operations.
 pub struct Repository {
     inner: gix::Repository,
     is_shallow: bool,
@@ -19,7 +19,7 @@ impl Repository {
         let path = path.into();
 
         let repo = gix::discover(&path)
-            .map_err(|e| MinVerError::GitRepoNotFound(format!("{}: {}", path.display(), e)))?;
+            .map_err(|e| TagVerError::GitRepoNotFound(format!("{}: {}", path.display(), e)))?;
 
         let is_shallow = repo.is_shallow();
 
@@ -64,7 +64,7 @@ pub fn calculate_version(repo: &Repository, config: &Config) -> Result<(Version,
     let mut head = repo
         .inner()
         .head()
-        .map_err(|e| MinVerError::Other(format!("Failed to get HEAD: {}", e)))?;
+        .map_err(|e| TagVerError::Other(format!("Failed to get HEAD: {}", e)))?;
 
     let head_commit = match head.try_peel_to_id() {
         Ok(Some(id)) => id.detach(),
@@ -215,7 +215,7 @@ pub fn calculate_version_fallback(
 
     match Repository::discover(&work_dir) {
         Ok(repo) => calculate_version(&repo, config),
-        Err(MinVerError::GitRepoNotFound(_)) => {
+        Err(TagVerError::GitRepoNotFound(_)) => {
             let version = Version::default(&config.default_prerelease_identifiers);
             let version = apply_config(version, config, None, 0);
             Ok((version, 0, false))

@@ -10,7 +10,7 @@ mod common;
 #[test_case("version5.6.7", "version", "5.6.7")]
 #[tokio::test]
 async fn test_tag_prefix(tag_name: &str, prefix: &str, expected_version: &str) {
-    use minver_rs::{calculate_version, Config};
+    use tagver::{calculate_version, Config};
 
     // Create test directory
     let temp_dir = TempDir::new().expect("Failed to create temp directory");

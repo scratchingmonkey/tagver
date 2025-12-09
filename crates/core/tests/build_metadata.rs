@@ -10,7 +10,7 @@ mod common;
 #[test_case("a", "0.0.0-alpha.0+a")]
 #[tokio::test]
 async fn test_no_commits(build_metadata: &str, expected_version: &str) {
-    use minver_rs::{calculate_version_with_fallback, Config};
+    use tagver::{calculate_version_with_fallback, Config};
 
     let temp_dir = TempDir::new().expect("Failed to create temp directory");
     let path = temp_dir.path();
@@ -43,7 +43,7 @@ async fn test_no_commits(build_metadata: &str, expected_version: &str) {
 #[test_case("a", "0.0.0-alpha.0+a")]
 #[tokio::test]
 async fn test_no_tag(build_metadata: &str, expected_version: &str) {
-    use minver_rs::{calculate_version_with_fallback, Config};
+    use tagver::{calculate_version_with_fallback, Config};
 
     let temp_dir = TempDir::new().expect("Failed to create temp directory");
     let path = temp_dir.path();
@@ -80,7 +80,7 @@ async fn test_no_tag(build_metadata: &str, expected_version: &str) {
 #[test_case("1.2.3-pre+a", "b", "1.2.3-pre+a.b")]
 #[tokio::test]
 async fn test_current_tag(tag_name: &str, build_metadata: &str, expected_version: &str) {
-    use minver_rs::{calculate_version_with_fallback, Config};
+    use tagver::{calculate_version_with_fallback, Config};
 
     let temp_dir = TempDir::new().expect("Failed to create temp directory");
     let path = temp_dir.path();
@@ -120,7 +120,7 @@ async fn test_current_tag(tag_name: &str, build_metadata: &str, expected_version
 #[test_case("1.2.3-pre+a", "b", "1.2.3-pre.1+b")]
 #[tokio::test]
 async fn test_previous_tag(tag_name: &str, build_metadata: &str, expected_version: &str) {
-    use minver_rs::{calculate_version_with_fallback, Config};
+    use tagver::{calculate_version_with_fallback, Config};
 
     let temp_dir = TempDir::new().expect("Failed to create temp directory");
     let path = temp_dir.path();

@@ -1,6 +1,6 @@
 //! Auto-increment tests - ported from MinVerTests.Lib/AutoIncrement.cs
 
-use minver_rs::{Config, VersionPart};
+use tagver::{Config, VersionPart};
 use tempfile::TempDir;
 use test_case::test_case;
 
@@ -15,7 +15,7 @@ async fn test_rtm_version_increment(
     auto_increment: VersionPart,
     expected_version: &str,
 ) {
-    use minver_rs::calculate_version_with_fallback;
+    use tagver::calculate_version_with_fallback;
 
     // Create test directory
     let temp_dir = TempDir::new().expect("Failed to create temp directory");

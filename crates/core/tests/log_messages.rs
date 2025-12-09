@@ -1,7 +1,7 @@
 //! Log messages tests - ported from MinVerTests.Lib/LogMessages.cs
 
-use minver_rs::config::MajorMinor;
-use minver_rs::{calculate_version_with_fallback, Config};
+use tagver::config::MajorMinor;
+use tagver::{calculate_version_with_fallback, Config};
 use tempfile::TempDir;
 mod common;
 
